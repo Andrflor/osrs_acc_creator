@@ -185,10 +185,16 @@ def check_account(submit):
 def save_account(payload, proxy=None):
 	"""Save the needed account information to created_accs.txt"""
 	if USE_PROXIES:
-		# Formatting our proxy string to only save the IP
-		proxy = str(proxy)
-		proxy = proxy[proxy.find('@')+1:]
-		proxy = proxy[:proxy.find(':')]
+		proxy_auth_type = get_settings_variables()[13]
+		if proxy_auth_type == 1: # Formatting based on user:pass auth
+			# Formatting our proxy string to only save the IP
+			proxy = str(proxy)
+			proxy = proxy[proxy.find('@')+1:]
+			proxy = proxy[:proxy.find(':')]
+		else: # Formatting based on IP authentication
+			proxy = str(proxy)
+			proxy = proxy[proxy.find('/')+2:]
+			proxy = proxy[:proxy.find("'")]
 	else:
 		proxy = get_ip()
 

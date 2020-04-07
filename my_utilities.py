@@ -13,6 +13,7 @@ def get_settings_variables():
     else:
     	# Return our [USER_SETTINGS]
         use_proxies = config['USER_SETTINGS'].getboolean('use_proxies')
+        proxy_auth_type = config['USER_SETTINGS'].get('proxy_auth_type')
         captcha_api_key = config['USER_SETTINGS'].get('2captcha_api_key')
         num_of_accs = config['USER_SETTINGS'].getint('num_of_accs')
         username_prefix = config['USER_SETTINGS'].get('username_prefix')
@@ -34,4 +35,5 @@ def get_settings_variables():
 
         return (use_proxies, captcha_api_key, num_of_accs, site_key, site_url, 
                 username_prefix, password, acc_details_format,
-                use_tribot, tribot_username, tribot_password, script_to_use, script_args)
+                use_tribot, tribot_username, tribot_password, script_to_use, script_args,
+                proxy_auth_type)
