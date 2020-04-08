@@ -44,16 +44,16 @@ def format_current_proxy(proxy):
     if proxy_auth_type == 1: # Formatting based on user:pass@proxy:port
         proxy_username = proxy[get_index(proxy, '/', 2)+1:get_index(proxy, ':', 3)]
         proxy_password = proxy[get_index(proxy, ':', 3)+1:get_index(proxy, '@', 1)]
-        proxy_ip = proxy[get_index(proxy, '@', 1)+1:get_index(proxy, ':', 4)]
+        proxy_host = proxy[get_index(proxy, '@', 1)+1:get_index(proxy, ':', 4)]
         proxy_port = proxy[get_index(proxy, ':', 4)+1:get_index(proxy, "'", 4)]
 
-        return proxy_username, proxy_password, proxy_ip, proxy_port
+        return proxy_username, proxy_password, proxy_host, proxy_port
 
     else: # Formatting based on proxy:port (IP authentication)
-        proxy_ip = proxy[get_index(proxy, '/', 2)+1:get_index(proxy, ':', 3)]
+        proxy_host = proxy[get_index(proxy, '/', 2)+1:get_index(proxy, ':', 3)]
         proxy_port = proxy[get_index(proxy, ':', 3)+1:-2]
 
-        return proxy_ip, proxy_port
+        return proxy_host, proxy_port
 
 
 def use_tribot(charname, charpass, proxy=None):

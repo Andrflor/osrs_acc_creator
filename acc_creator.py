@@ -172,12 +172,17 @@ def check_account(submit):
 	submit_page = submit.text
 	success = '<p>You can now begin your adventure with your new account.</p>'
 	if success in submit_page:
-		print ("\nWe made it to the account created page.\n")
+		print ("\nAccount was successfully created.\n")
 		return True
 	elif 'Warning!' in submit_page: # If account creation fails, print the error
+		print("\nAccount was not created successfully - error below:")
 		error_text = submit_page[get_index(submit_page, 'Warning!', 1)+23:]
 		error_text = error_text[:get_index(error_text, '<', 1)]
 		print(error_text)
+		return False
+	else:
+		print("Account was not created successfully "
+			  "and we weren't able to catch the error.. ")
 		return False
 
 
@@ -226,13 +231,18 @@ def create_account():
 			payload = get_payload(captcha_solver())
 			submit = requests.post(SITE_URL, data=payload, proxies=proxy)
 			if submit.ok:
+				# Debug message below because on a rare occasion,
+				# An account wont create successfully and its not due to payload
+				print(f"creation post status code: {submit.status_code} #debug")
 				if check_account(submit):
 					save_account(payload, proxy=proxy)
 					if tribot_active:
 						use_tribot(payload['email1'], payload['password1'], proxy)	
 				else:
 					print("We submitted our account creation request " 
-						  "but didn't get to the creation successful page.")
+						  "but didn't get to the creation successful page. "
+						  "Please send the error and status code to Gavin!")
+					print(submit.status_code)
 			else:
 				print(f"Creation failed. Error code {submit.status_code}")
 	else:  # Not using proxies so we'll create the account(s) with our real IP
@@ -245,8 +255,10 @@ def create_account():
 					if tribot_active:
 						use_tribot(payload['email1'], payload['password1'])	
 				else:
-					print("We submitted our account creation request "
-					      "but didn't get to the creation successful page.")
+					print("We submitted our account creation request " 
+						  "but didn't get to the creation successful page. "
+						  "Please send the error and status code to Gavin!")
+					print(submit.status_code)
 			else:
 				print(f"Creation failed. Error code {submit.status_code}")
 

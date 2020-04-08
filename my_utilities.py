@@ -13,7 +13,7 @@ def get_settings_variables():
     else:
     	# Return our [USER_SETTINGS]
         use_proxies = config['USER_SETTINGS'].getboolean('use_proxies')
-        proxy_auth_type = config['USER_SETTINGS'].get('proxy_auth_type')
+        proxy_auth_type = config['USER_SETTINGS'].getint('proxy_auth_type')
         captcha_api_key = config['USER_SETTINGS'].get('2captcha_api_key')
         num_of_accs = config['USER_SETTINGS'].getint('num_of_accs')
         username_prefix = config['USER_SETTINGS'].get('username_prefix')
